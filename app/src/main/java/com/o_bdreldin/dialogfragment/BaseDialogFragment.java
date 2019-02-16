@@ -13,22 +13,27 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     private static final String TAG = BaseDialogFragment.class.getSimpleName();
 
-    private Integer backgroundColor = android.R.color.transparent;
+    private int width = WindowManager.LayoutParams.MATCH_PARENT, height = WindowManager.LayoutParams.MATCH_PARENT;
 
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_FRAME, R.style.BaseDialogFragmentStyle);
+        setStyle(STYLE_NO_FRAME, 0);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if (getDialog().getWindow() != null)
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setViews(view);
         setListeners();
     }
@@ -37,17 +42,20 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCanceledOnTouchOutside(isCancelable());
         Window window = dialog.getWindow();
-        window.requestFeature(Window.FEATURE_NO_TITLE);
-        window.setBackgroundDrawableResource(backgroundColor);
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        }
         return dialog;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        if (getDialog().getWindow() != null)
+            getDialog().getWindow().setLayout(width, height);
     }
 
     protected abstract void setViews(View view);
