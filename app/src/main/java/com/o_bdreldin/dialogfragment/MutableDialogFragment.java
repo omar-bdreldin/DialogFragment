@@ -40,7 +40,7 @@ public final class MutableDialogFragment extends BaseDialogFragment {
                 if (entry.getKey() != 0) {
                     if (entry.getValue() != null) {
                         View v = view.findViewById(entry.getKey());
-                        entry.getValue().set(v);
+                        entry.getValue().set(v, this);
                     }
                 } else {
                     Log.e(TAG, "id value of 0 is not allowed.");
