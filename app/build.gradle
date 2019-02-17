@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 27
@@ -28,4 +30,30 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+ext {
+    bintrayRepo = "MutableDialogFragment"
+    bintrayName = "com.o_bdreldin.dialogfragment"
+    libraryName = "MutableDialogFragment"
+
+    publishedGroupId = "com.o_bdreldin"
+    artifact = "MutableDialogFragment"
+    libraryVersion = "1.0"
+
+    libraryDescription = 'A small library that faciliatate creating and showing a DialogFragment in one line'
+    siteUrl = 'com.o_bdreldin.dialogfragment'
+    gitUrl = 'com.o_bdreldin.dialogfragment.git'
+    developerId = 'omar-bdreldin'
+    developerName = 'Omar Bdreldin'
+    developerEmail = 'omarbdreldin@gmail.com'
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+
+}
+
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/Jcenter/master/installv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/Jcenter/master/bintrayv1.gradle'
 }
